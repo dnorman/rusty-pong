@@ -1,4 +1,4 @@
-//! Represents the ball in a game of Pong.
+//Represents the ball in a game of Pong.
 
 use {Game, Paddle, Rectangle, Result, UpdateParams};
 use glium::Frame;
@@ -40,7 +40,9 @@ impl Ball {
     fn reset(&mut self, x: f32, y: f32) {
         self.bounds.x = x - self.bounds.width / 2.0;
         self.bounds.y = y - self.bounds.height / 2.0;
-        
+
+        self.vx = 300.0;
+        self.vy = 300.0;
         // TODO: Give the ball a random velocity.
     }
 
@@ -69,15 +71,35 @@ impl Ball {
     /// Handles collision between the ball and a paddle.
     fn check_paddle_collision(&mut self, paddle: &Paddle) {
         // TODO: Check collision against the given paddle, and reflect the ball if it's colliding.
+
+        if paddle.bounds.intersects(self.bounds) {
+            self.vx *= -1.0;
+        }
+
     }
 
     /// Handles collision between the ball and the top or bottom of the screen.
     fn check_wall_collision(&mut self, params: &UpdateParams) {
         // TODO: Check collision against the top and bottom of the screen, and reflect the ball if it's colliding.
+
+        if self.bounds.y < 0.0 || self.bounds.y > params.game_height {
+            self.vy *= -1.0;
+        }
     }
 
     /// Handles collision between the ball and the left or right edge of the screen.
     fn check_goal(&mut self, params: &UpdateParams, left_paddle: &mut Paddle, right_paddle: &mut Paddle) {
         // TODO: Check collision against the left or right edge, and give the appropriate player a point.
+
+        if self.bounds.x < 0.0 {
+            left_paddle.score += 1;
+            self.reset(300.0,300.0);
+        }
+        if self.bounds.x > params.game_width {
+            right_paddle.score += 1;
+            self.reset(300.0,300.0);
+        }
+
+
     }
 }

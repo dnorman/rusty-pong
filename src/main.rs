@@ -77,7 +77,7 @@ impl Game {
 
         // Lock the cursor to the window.
         if let Some(window) = display.get_window() {
-            window.set_cursor_state(glium::glutin::CursorState::Grab).unwrap_or(());
+            //window.set_cursor_state(glium::glutin::CursorState::Grab).unwrap_or(());
         }
 
         // Load the shader for drawing rectangles.
@@ -111,7 +111,7 @@ impl Game {
 
             left_paddle: Paddle::new(25.0, height / 2.0),
             right_paddle: Paddle::new(width - 25.0, height / 2.0),
-            
+
             ball: Ball::new(width / 2.0, height / 2.0),
         })
     }
@@ -136,7 +136,7 @@ impl Game {
     }
 
     /// The game loop.
-    /// Each iteration through the loop handles any window events, reads user input, 
+    /// Each iteration through the loop handles any window events, reads user input,
     /// updates the game state, and renders a frame.
     /// This loop runs until the user requests an exit, or an error occurs.
     fn run_game_loop(&mut self) -> Result<()> {
@@ -190,7 +190,7 @@ impl Game {
         // Ask glium for the buffer to draw to.
         use glium::Surface;
         let mut frame = self.display.draw();
-        
+
         // Clear the screen.
         frame.clear_color(0.0, 0.0, 0.0, 0.0);
 
@@ -260,7 +260,7 @@ impl Game {
             match event {
                 // Window closed by the user.
                 Event::Closed => return true,
-                
+
                 // User pressed Escape to close the game.
                 Event::KeyboardInput(ElementState::Pressed, _, Some(VirtualKeyCode::Escape)) => {
                     return true;
@@ -289,7 +289,7 @@ impl Game {
     /// x and y are in game coordinates (1280x720) with (0, 0) at the top left of the frame.
     pub fn draw_rectangle(&self, frame: &mut glium::Frame, rect: Rectangle, color: [f32; 4]) -> Result<()> {
         use glium::Surface;
-        
+
         let (frame_width, frame_height) = (frame.get_dimensions().0 as f32, frame.get_dimensions().1 as f32);
 
         // Matrix to transform the 1x1 square at (0, 0) into a (width, height) square at (x, y).
